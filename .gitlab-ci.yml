@@ -1,0 +1,67 @@
+# BUILD : source code to binary
+# TEST  : 
+# DEPLOY: 
+stages:          # List of stages for jobs 
+  - build
+  - test
+  - deploy_staging
+  - deploy_production
+
+variables:
+  GIT_STRATEGY: clone
+
+# Build stage 
+build-job:       
+  stage: build
+  tags: 
+    - "build"
+  script:
+    - echo "Compiling the code..."
+    - pip install -r requirements.txt
+    - make build
+    - echo "Compile complete."
+  artifacts:    # Compiled Binary 
+    paths:
+      - dist/a
+      - dist/b
+    expire_in: 1 week
+
+# Test stage.
+unit-test-job:   
+  stage: test    
+  tags: 
+    - "test"
+  script:
+    - echo "Running unit tests... "
+#    - ./test
+    - echo "Running unit tests... Done"
+  dependencies:
+    - build-job
+
+# Deploy stage.
+# staging
+deploy_staging:     
+  stage: deploy_staging   
+  tags: 
+    - "deploy"
+  script:
+    - echo "Deploy to staging server"
+    - ansible-playbook -i hosts playbook.yml -e "target_hosts=staging_servers"
+    - echo "Deploy to staging server DONE"
+  dependencies:
+    - build-job
+
+# production
+deploy_prod:
+  stage: deploy_production
+  tags: 
+    - "deploy"
+  script:
+    - echo "Deploy to production server"
+    - ansible-playbook -i hosts playbook.yml -e "target_hosts=production_servers"
+    - echo "Deploy to production server DONE"
+  environment:
+    name: production
+  when: manual
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

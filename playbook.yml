@@ -1,0 +1,40 @@
+---
+- name: Deploy bbu api
+  hosts: "{{ target_hosts }}"
+  become: yes
+  gather_facts: false
+  tasks:    
+  - name: Create directory on remote host
+    file:
+      path: /opt/test
+      state: directory
+
+  - name: Copy files to remote host
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+      - { src: "./dist/b", dest: "/opt/test/b" }
+      - { src: "./dist/a", dest: "/opt/test/a" }
+      - { src: "./test.service", dest: "/etc/systemd/system" }
+
+
+  - name: Set script permission -b
+    file:
+      path: /opt/test/b
+      mode: "u+x"
+
+  - name: Set script permission - a
+    file:
+      path: /opt/test/a
+      mode: "u+x"
+
+  - name: Reload systemd configuration
+    systemd:
+      daemon_reload: yes
+
+  - name: Enable and start service
+    systemd:
+      name: a
+      state: started
+      enabled: yes
