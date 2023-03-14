@@ -18,7 +18,6 @@
       - { src: "./dist/a", dest: "/opt/test/a" }
       - { src: "./test.service", dest: "/etc/systemd/system" }
 
-
   - name: Set script permission -b
     file:
       path: /opt/test/b

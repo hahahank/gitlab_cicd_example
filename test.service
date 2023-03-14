@@ -1,0 +1,9 @@
+[Unit]
+Description=aaaxxx
+
+[Service]
+Type=simple
+ExecStart=/opt/test/a
+
+[Install]
+WantedBy=multi-user.target
