@@ -2,9 +2,10 @@
 
 This is a Gitlab pipeline example with ansible.
 
+
 You need a :
-  - Gitlab server : Require python and libs 
-  - Build server
+  - Gitlab server : Require python   
+  - Build server  : Require librarys in requirement.txt
   - Test server
   - Deploy Server : Require ansible and sshpass
   - Production Server
