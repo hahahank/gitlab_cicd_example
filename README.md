@@ -1,7 +1,7 @@
 # gitlab_cicd_example
 
 This is a Gitlab pipeline example with ansible.
-
+Compile a.py and b.py to binary. and deploy as a service on production server
 
 You need a :
   - Gitlab server : Require python   
