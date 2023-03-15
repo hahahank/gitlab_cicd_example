@@ -10,6 +10,7 @@ You need a :
   - Deploy Server : Require ansible and sshpass
   - Production Server
 
+![image](https://user-images.githubusercontent.com/4043666/225212071-8c1c1a99-f9b5-4e7f-8df8-7a554ea1ce25.png)
 
 
 The Process Step is :
